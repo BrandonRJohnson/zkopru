@@ -1,49 +1,47 @@
-import { useEffect, useState } from "react";
-import axios from 'axios';
-import useAxios from "./axios";
-
-// NOTE: will start with only one component. simple web app no need to overcomplicate it.
-
-// 
+import React from "react";
+import './App.css';
+import sampleData from './sampleData.json';
+ 
 const App = () => {
-  // set up state for withdrawals
-  const [ withdrawals, setWithdrawals ] = useState([]);
-  const [data, setData] = useState([]);
-
-  const { response, loading, error } = useAxios({
-    method: 'placeholder'
-    url: "placeholder"
-    headers: 'placeholder'
-    body: JSON.stringify({
-      x
-      y
-      z
-    })
-  })
-
-  useEffect(() => {
-    if (response !== null) {
-      setData(response);
-    }
-  }, [response]);
-
-  setWithdrawals({...withdrawals, data})
-
-  // need a map function
-  const info = withdrawals.map((item) =>
-    <div>
-      <h2>
-      {key}
-      {amount}
-      {date}
-      </h2>
-    </div>
-  )
   return (
     <div>
-      <h1>Zkopru withdrawals</h1>
-      {info}
+      <h1>
+        Market
+      </h1>
+      <table className="content-table">
+        <thead>
+          <tr>
+            <th>Status</th>
+            <th>Reward</th>                  
+            <th>Paid</th>
+            <th>Expires</th>
+            <th>L2 Block</th>
+            <th>L1</th>
+            <th>Creation</th>
+            <th>Asset</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          {sampleData.map((item,index) => {
+            return(
+              <div>
+                <td>{item.status}</td>
+                <td>{item.reward}</td>
+                <td>{item.paid}</td>
+                <td>{item.expirationTime}</td>
+                <td></td>
+                <td></td>
+                <td>{item.creationTime}</td>
+                <td>{item.asset}</td>
+                <td>{item.amount}</td>
+              </div>
+            )
+          })}
+        </tbody>
+      </table>
     </div>
   )
 }
+
 export default App;

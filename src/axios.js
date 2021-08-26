@@ -24,7 +24,7 @@ const useAxios = ({ url, method, body = null, headers = null}) => {
     }, [method, url, body, headers]);
 
     return (
-        {response, error, loading};
+        {response, error, loading}
     );
 }
 
