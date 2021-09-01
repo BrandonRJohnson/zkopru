@@ -1,6 +1,6 @@
 .content-table {
   border-collapse: collapse;
-  border: 1px solid rgb(192, 192, 192);
+  border: 1px solid black;
   margin: 25px 0;
   font-size: 0.9 em;
   min-width: 400 px;
@@ -17,8 +17,10 @@
 .content-table th,
 .content-table td {
   padding: 12px 15px;
+  border: 1px solid black;
 }
 
 .content-table tbody tr {
   border-bottom: 1px solid lightgrey;
+
 }
