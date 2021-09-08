@@ -1,44 +1,49 @@
 import React, { useEffect, useState } from "react";
 import './App.css';
 import axios from 'axios';
+import fromWei from './fromWei.js';
 
 const App = () => {
   // we need to use the api key in order to figure out the data that is actually being imported from the API
   const [ info, setInfo ] = useState([])
-  const [ status, setStatus] = useState([])
 
-  useEffect(() => {
-    axios
-      .get('https://zkopru.goerli.rollupscan.io/instant-withdraw', {mode: 'cors'})
-      .then((response) => {
-        console.log(response);
-        setInfo(response.data)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-    }, [])
+  useEffect(async () => {
+    try {
+      const { data } = await axios('https://zkopru.goerli.rollupscan.io/instant-withdraw')
+      setInfo(data)
+      console.log(data)
+    } catch (err) {
+      console.log(err)
+    }
+  }, [])
+
+  console.log()
   // Status: convert status from number in data to display words in browser (4 is available, 5 Not Available, 6 Fulfilled )
-  const Data = info.map((item, index) => {
+  const Data = info.map((item) => {
     return (
       <tbody>
         <tr>
           <td>
-            {() => {
-              switch (status) {
-                case info[index].withdrawal.status === 4: return setStatus(status => [...status,'Available']);
-                case info[index].withdrawal.status === 5: return setStatus(status => [...status,'Fulfilled']);
-                default: return 'Not Available';
+            {(() => {
+              if (item.withdrawal.status === 4 ) {
+                return 'Available'
               }
-            }}
+              else if ( item.withdrawal.status === 5 ) {
+                return 'Fulfulled'
+              }
+              else if ( item.withdrawal.statsus === 6 ) {
+                return 'Not Available'
+              }
+            })()}
           </td>
-          <td>{(info[index].prepayFeeInEth / (10 ** 18))} ETH</td>
+          <td>{fromWei(item.prepayFeeInEth)} ETH</td>
           <td>TBD</td>
-          <td>{ Date(info[index].expiration * 1000)}</td>
-          <td>TODO</td>
-          <td>TODO</td>
-          <td>TODO</td>
+          <td>{Date(item.expiration * 1000)}</td>
+          <td>{item.withdrawal.proposal.canonicalNum}</td>
+          <td>{item.withdrawal.proposal.proposedAt}</td>
+          <td>{Date(item.withdrawal.proposal.timestamp * 1000)}</td>
           <td>ETH</td>
+          <td>TODO</td>
         </tr>
       </tbody>
     )
