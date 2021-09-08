@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import './App.css';
 import axios from 'axios';
- 
+
 const App = () => {
   // we need to use the api key in order to figure out the data that is actually being imported from the API
   const [ info, setInfo ] = useState([])
@@ -67,7 +67,7 @@ const App = () => {
         <thead>
           <tr>
             <th className="status">Status</th>
-            <th>Reward</th>                  
+            <th>Reward</th>
             <th>Paid</th>
             <th>Expires</th>
             <th>L2 Block</th>
