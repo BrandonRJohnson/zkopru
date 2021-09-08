@@ -36,14 +36,14 @@ const App = () => {
               }
             })()}
           </td>
-          <td>{fromWei(item.prepayFeeInEth)} ETH</td>
+          <td>{fromWei((item.withdrawal.erc20Amount - item.prepayFeeInToken))} ETH</td>
           <td>TBD</td>
           <td>{Date(item.expiration * 1000)}</td>
           <td>{item.withdrawal.proposal.canonicalNum}</td>
           <td>{item.withdrawal.proposal.proposedAt}</td>
           <td>{Date(item.withdrawal.proposal.timestamp * 1000)}</td>
           <td>ETH</td>
-          <td>TODO</td>
+          <td>{fromWei(item.prepayFeeInEth)} ETH</td>
         </tr>
       </tbody>
     )

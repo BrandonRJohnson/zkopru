@@ -1,6 +1,6 @@
 import BN from 'bn.js';
 
-const fromWei = (amount, decimals = 8) => {
+const fromWei = (amount, decimals = 12) => {
     let bnAmount
     if (typeof amount === 'string' && amount.indexOf('0x') === 0) {
       bnAmount = new BN(amount.slice(2), 16)
