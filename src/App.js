@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import './App.css';
 import axios from 'axios';
 import fromWei from './fromWei.js';
+import Alarmclock_fill from './Alarmclock_fill.svg'
+
 
 const App = () => {
   // we need to use the api key in order to figure out the data that is actually being imported from the API
@@ -25,28 +27,28 @@ const App = () => {
           {(() => {
             if ( item.withdrawal.status === 4 ) {
               return (
-                <div className="table-data-available">Available</div>
+                <div className="table-data-available" style={{ width: "10%" }}>Available</div>
               )
             }
             else if ( item.withdrawal.status === 5 ) {
               return (
-                <div  className="table-data">Fulfilled</div>
+                <div  className="table-data" style={{ width: "10%" }}>Fulfilled</div>
               )
             }
             else if ( item.withdrawal.statsus === 6 ) {
               return (
-                <div  className="table-data">Not Available</div>
+                <div  className="table-data" style={{ width: "10%" }}>Not Available</div>
               )
             }
           })()}
-          <div className="table-data">{fromWei((item.withdrawal.erc20Amount - item.prepayFeeInToken))} ETH</div>
-          <div className="table-data">TBD</div>
-          <div className="table-data">{Date(item.expiration * 1000)}</div>
-          <div className="table-data">{item.withdrawal.proposal.canonicalNum}</div>
-          <div className="table-data">{item.withdrawal.proposal.proposedAt}</div>
-          <div className="table-data">{Date(item.withdrawal.proposal.timestamp * 1000)}</div>
-          <div className="table-data">ETH</div>
-          <div className="table-data">{fromWei(item.prepayFeeInEth)} ETH</div>
+          <div className="table-data" style={{ width: "15%" }}>{fromWei((item.withdrawal.erc20Amount - item.prepayFeeInToken))} ETH</div>
+          <div className="table-data" style={{ width: "15%" }}>TBD</div>
+          <div className="table-data" style={{ width: "32%" }}>{Date(item.expiration * 1000)}</div>
+          <div className="table-data" style={{ width: "8%" }}>{item.withdrawal.proposal.canonicalNum}</div>
+          <div className="table-data" style={{ width: "5%" }}>{item.withdrawal.proposal.proposedAt}</div>
+          <div className="table-data" style={{ width: "32%" }}>{Date(item.withdrawal.proposal.timestamp * 1000)}</div>
+          <div className="table-data" style={{ width: "5%" }}>ETH</div>
+          <div className="table-data" style={{ width: "15%" }}>{fromWei(item.prepayFeeInEth)} ETH</div>
       </div>
     )
   })
@@ -55,18 +57,21 @@ const App = () => {
     <div>
       <h1 className="title">
         Market
+        <img src={Alarmclock_fill} alt="time"></img>
       </h1>
-      <div className="table">
+      <div className="table-container">
         <div className="table-header">
-          <div>Status</div>
-          <div>Reward</div>
-          <div>Paid</div>
-          <div>Expires</div>
-          <div>L2 Block</div>
-          <div>L1</div>
-          <div>Creation</div>
-          <div>Asset</div>
-          <div>Amount</div>
+          <div style={{ width: "10%" }}>Status</div>
+          <div style={{ width: "15%" }}>Reward</div>
+          <div style={{ width: "15%" }}>Paid</div>
+          <div style={{ width: "32%" }}>
+             Expires
+          </div>
+          <div style={{ width: "8%" }}>L2 Block</div>
+          <div style={{ width: "5%" }}>L1</div>
+          <div style={{ width: "32%" }}>Creation</div>
+          <div style={{ width: "5%" }}>Asset</div>
+          <div style={{ width: "15%" }}>Amount</div>
         </div>
         {Data}
       </div>
