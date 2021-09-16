@@ -34,6 +34,10 @@
   padding: 8px;
 }
 
+.table-row-available {
+  background-color: "#EFF6FF";
+}
+
 .table-data {
   color: #111827;
   min-width: 50px;

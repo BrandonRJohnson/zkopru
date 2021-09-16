@@ -22,35 +22,53 @@ const App = () => {
   console.log()
 
   const Data = info.map((item) => {
-    return (
-      <div className='table-row'>
-          {(() => {
-            if ( item.withdrawal.status === 4 ) {
-              return (
-                <div className="table-data-available" style={{ width: "10%" }}>Available</div>
-              )
-            }
-            else if ( item.withdrawal.status === 5 ) {
-              return (
-                <div  className="table-data" style={{ width: "10%" }}>Fulfilled</div>
-              )
-            }
-            else if ( item.withdrawal.statsus === 6 ) {
-              return (
-                <div  className="table-data" style={{ width: "10%" }}>Not Available</div>
-              )
-            }
-          })()}
-          <div className="table-data" style={{ width: "15%" }}>{fromWei((item.withdrawal.erc20Amount - item.prepayFeeInToken))} ETH</div>
-          <div className="table-data" style={{ width: "15%" }}>TBD</div>
-          <div className="table-data" style={{ width: "32%" }}>{Date(item.expiration * 1000)}</div>
-          <div className="table-data" style={{ width: "8%" }}>{item.withdrawal.proposal.canonicalNum}</div>
-          <div className="table-data" style={{ width: "5%" }}>{item.withdrawal.proposal.proposedAt}</div>
-          <div className="table-data" style={{ width: "32%" }}>{Date(item.withdrawal.proposal.timestamp * 1000)}</div>
-          <div className="table-data" style={{ width: "5%" }}>ETH</div>
-          <div className="table-data" style={{ width: "15%" }}>{fromWei(item.prepayFeeInEth)} ETH</div>
-      </div>
-    )
+    if ( item.withdrawal.status === 4 ) {
+      return (
+        <div className='table-row'>
+            <div className="table-data-available" style={{ width: "10%", backgroundColor: "#EFF6FF" }}> Available </div>
+            <div className="table-data" style={{ width: "15%", backgroundColor: "#EFF6FF"  }}>{fromWei((item.withdrawal.erc20Amount - item.prepayFeeInToken))} ETH</div>
+            <div className="table-data" style={{ width: "15%", backgroundColor: "#EFF6FF"   }}>TBD</div>
+            <div className="table-data" style={{ width: "32%", backgroundColor: "#EFF6FF"   }}>{Date((item.expiration * 1000))}</div>
+            <div className="table-data" style={{ width: "8%", backgroundColor: "#EFF6FF"   }}>{item.withdrawal.proposal.canonicalNum}</div>
+            <div className="table-data" style={{ width: "5%", backgroundColor: "#EFF6FF"   }}>{item.withdrawal.proposal.proposedAt}</div>
+            <div className="table-data" style={{ width: "32%", backgroundColor: "#EFF6FF"   }}>{Date((item.withdrawal.proposal.timestamp * 1000))}</div>
+            <div className="table-data" style={{ width: "5%", backgroundColor: "#EFF6FF"   }}>ETH</div>
+            <div className="table-data" style={{ width: "15%", backgroundColor: "#EFF6FF"   }}>{fromWei(item.prepayFeeInEth)} ETH</div>
+        </div>
+      )
+    }
+
+    else if ( item.withdrawal.status === 5 ) {
+      return (
+        <div className='table-row'>
+            <div className="table-data" style={{ width: "10%" }}> Fulfilled </div>
+            <div className="table-data" style={{ width: "15%" }}>{fromWei((item.withdrawal.erc20Amount - item.prepayFeeInToken))} ETH</div>
+            <div className="table-data" style={{ width: "15%" }}>TBD</div>
+            <div className="table-data" style={{ width: "32%" }}>{Date((item.expiration * 1000))}</div>
+            <div className="table-data" style={{ width: "8%" }}>{item.withdrawal.proposal.canonicalNum}</div>
+            <div className="table-data" style={{ width: "5%" }}>{item.withdrawal.proposal.proposedAt}</div>
+            <div className="table-data" style={{ width: "32%" }}>{Date((item.withdrawal.proposal.timestamp * 1000))}</div>
+            <div className="table-data" style={{ width: "5%" }}>ETH</div>
+            <div className="table-data" style={{ width: "15%" }}>{fromWei(item.prepayFeeInEth)} ETH</div>
+        </div>
+      )
+    }
+
+    else if ( item.withdrawal.status === 6 ) {
+      return (
+        <div className='table-row'>
+            <div className="table-data" style={{ width: "10%" }}> Expired </div>
+            <div className="table-data" style={{ width: "15%" }}>{fromWei((item.withdrawal.erc20Amount - item.prepayFeeInToken))} ETH</div>
+            <div className="table-data" style={{ width: "15%" }}>TBD</div>
+            <div className="table-data" style={{ width: "32%" }}>{Date((item.expiration * 1000))}</div>
+            <div className="table-data" style={{ width: "8%" }}>{item.withdrawal.proposal.canonicalNum}</div>
+            <div className="table-data" style={{ width: "5%" }}>{item.withdrawal.proposal.proposedAt}</div>
+            <div className="table-data" style={{ width: "32%" }}>{Date((item.withdrawal.proposal.timestamp * 1000))}</div>
+            <div className="table-data" style={{ width: "5%" }}>ETH</div>
+            <div className="table-data" style={{ width: "15%" }}>{fromWei(item.prepayFeeInEth)} ETH</div>
+        </div>
+      )
+    }
   })
 
   return (
