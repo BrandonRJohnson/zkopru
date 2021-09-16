@@ -18,74 +18,58 @@ const App = () => {
   }, [])
 
   console.log()
-  // Status: convert status from number in data to display words in browser (4 is available, 5 Not Available, 6 Fulfilled )
+
   const Data = info.map((item) => {
     return (
-      <tbody className={`table-row`}>
-        <tr>
+      <div className='table-row'>
           {(() => {
             if ( item.withdrawal.status === 4 ) {
               return (
-                <td className="table-data-available">Available</td>
+                <div className="table-data-available">Available</div>
               )
             }
             else if ( item.withdrawal.status === 5 ) {
               return (
-                <td  className="table-data">Fulfilled</td>
+                <div  className="table-data">Fulfilled</div>
               )
             }
             else if ( item.withdrawal.statsus === 6 ) {
               return (
-                <td  className="table-data">Not Available</td>
+                <div  className="table-data">Not Available</div>
               )
             }
           })()}
-          <td className="table-data">{fromWei((item.withdrawal.erc20Amount - item.prepayFeeInToken))} ETH</td>
-          <td className="table-data">TBD</td>
-          <td className="table-data">{Date(item.expiration * 1000)}</td>
-          <td className="table-data">{item.withdrawal.proposal.canonicalNum}</td>
-          <td className="table-data">{item.withdrawal.proposal.proposedAt}</td>
-          <td className="table-data">{Date(item.withdrawal.proposal.timestamp * 1000)}</td>
-          <td className="table-data">ETH</td>
-          <td className="table-data">{fromWei(item.prepayFeeInEth)} ETH</td>
-        </tr>
-      </tbody>
+          <div className="table-data">{fromWei((item.withdrawal.erc20Amount - item.prepayFeeInToken))} ETH</div>
+          <div className="table-data">TBD</div>
+          <div className="table-data">{Date(item.expiration * 1000)}</div>
+          <div className="table-data">{item.withdrawal.proposal.canonicalNum}</div>
+          <div className="table-data">{item.withdrawal.proposal.proposedAt}</div>
+          <div className="table-data">{Date(item.withdrawal.proposal.timestamp * 1000)}</div>
+          <div className="table-data">ETH</div>
+          <div className="table-data">{fromWei(item.prepayFeeInEth)} ETH</div>
+      </div>
     )
   })
 
-
-  // Reward: Should be calculated based on withdrawal.eth - prepayFeeInEther
-  // should use the BN math library in order to do these calculations
-  // Paid:
-
-  // Expiration: unix time (seconds) convert to milliseconds to use in javascript (e.g. new Date(expiration * 1000)
-
-  // Creation
-
-  // Asset
-
-  // Amount
   return (
     <div>
       <h1 className="title">
         Market
       </h1>
-      <table className="table">
-        <thead>
-          <tr>
-            <th className="table-header">Status</th>
-            <th className="table-header">Reward</th>
-            <th className="table-header">Paid</th>
-            <th className="table-header">Expires</th>
-            <th className="table-header">L2 Block</th>
-            <th className="table-header">L1</th>
-            <th className="table-header">Creation</th>
-            <th className="table-header">Asset</th>
-            <th className="table-header">Amount</th>
-          </tr>
-        </thead>
+      <div className="table">
+        <div className="table-header">
+          <div>Status</div>
+          <div>Reward</div>
+          <div>Paid</div>
+          <div>Expires</div>
+          <div>L2 Block</div>
+          <div>L1</div>
+          <div>Creation</div>
+          <div>Asset</div>
+          <div>Amount</div>
+        </div>
         {Data}
-      </table>
+      </div>
     </div>
   )
 

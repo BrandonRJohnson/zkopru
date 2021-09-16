@@ -5,6 +5,8 @@
 
 
 .table {
+  display: flex;
+  flex-direction: column;
   justify-content: center;
 
   font-family: Inter;
@@ -20,17 +22,22 @@
 }
 
 .table-header {
+  display: flex;
+  justify-content: space-between;
   color: #9CA3AF;
+  flex: 1;
+
 }
 
 .table-row {
-  margin: 10px 0px;
+  display: flex;
+  justify-content: space-between;
+  margin: 10px px;
   padding: 8px;
 }
 
 .table-data {
   color: #111827;
-  justify-content: center;
 }
 
 .table-data-available {
