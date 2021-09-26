@@ -16,15 +16,16 @@
 
 .table-header {
   display: flex;
-  justify-content: space-around;
+  justify-content: left;
   color: #9CA3AF;
   flex: 1;
+  padding-top: 5px;
+  padding-left: 8px;
 
 }
 
 .table-row {
   display: flex;
-  justify-content: center;
   margin: 10px px;
   padding: 8px;
   height: 56px;
@@ -32,14 +33,14 @@
 
 .table-data {
   color: #111827;
-  min-width: 50px;
   word-break: break-all;
   line-break: break-all;
-  text-align: center;
+  padding-top: 15px;
 }
 
 .table-data-available {
   color: #1D4ED8;
+  padding: 15px 5px;
 }
 
 .title {
