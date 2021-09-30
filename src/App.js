@@ -22,7 +22,7 @@ const App = () => {
 
   console.log(info)
 
-  const asset  = ( address, tokenInfo ) => {
+  const getAssetSymbol  = ( address, tokenInfo ) => {
     if ( +address === 0) {
         return "ETH"
     }
@@ -32,7 +32,7 @@ const App = () => {
     }
   }
 
-  const determineStatus = ( item ) => {
+  const getStatus = ( item ) => {
     if ( item.withdrawal.status === 3 ) {
       return "Fulfilled"
     }
@@ -46,7 +46,7 @@ const App = () => {
   }
 
   const Data = info.map((item) => {
-    const currentStatus = determineStatus(item)
+    const currentStatus = getStatus(item)
     const isAvailable = currentStatus === "Available"
     const isExpired = +new Date() > +item.expiration * 1000
       return (
@@ -58,8 +58,8 @@ const App = () => {
             <div className="table-data" style={{ width: "8%"}}>{item.withdrawal.proposal.canonicalNum}</div>
             <div className="table-data" style={{ width: "10%"}}>{item.withdrawal.proposal.proposedAt}</div>
             <div className="table-data" style={{ width: "12%"}}>{newDate(item.withdrawal.proposal.timestamp)}</div>
-            <div className="table-data" style={{ width: "8%"}}>{Asset(item.withdrawal.tokenAddr, item.withdrawal.tokenInfo)}</div>
-            <div className="table-data" style={{ width: "15%"}}>{fromWei(item.prepayFeeInEth)} {Asset(item.withdrawal.tokenAddr, item.withdrawal.tokenInfo)} </div>
+            <div className="table-data" style={{ width: "8%"}}>{getAssetSymbol(item.withdrawal.tokenAddr, item.withdrawal.tokenInfo)}</div>
+            <div className="table-data" style={{ width: "15%"}}>{fromWei(item.prepayFeeInEth)} {getAssetSymbol(item.withdrawal.tokenAddr, item.withdrawal.tokenInfo)} </div>
         </div>
       )
   })
