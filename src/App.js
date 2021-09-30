@@ -4,7 +4,7 @@ import axios from 'axios';
 import fromWei from './fromWei.js';
 import newDate from './dayjs.js';
 import Alarmclock_fill from './Alarmclock_fill.svg'
-import Asset from "./Asset";
+import Reward from "./Reward";
 
 
 
@@ -24,13 +24,23 @@ const App = () => {
 
   console.log(info)
 
+  const Asset  = ( address, tokenInfo ) => {
+    if ( +address === 0) {
+        return "ETH"
+    }
+
+    else {
+        return tokenInfo.symbol
+    }
+}
+
 
   const Data = info.map((item) => {
     if ( item.withdrawal.status === 4 ) {
       return (
         <div className='table-row'>
             <div className="table-data-available" style={{ width: "10%", backgroundColor: "#EFF6FF" }}> Available </div>
-            <div className="table-data" style={{ width: "15%", backgroundColor: "#EFF6FF"  }}> ETH</div>
+            <div className="table-data" style={{ width: "15%", backgroundColor: "#EFF6FF"  }}> {Reward(item)}</div>
             <div className="table-data" style={{ width: "12%", backgroundColor: "#EFF6FF"   }}>TBD</div>
             <div className="table-data" style={{ width: "12%", backgroundColor: "#EFF6FF"   }}>{newDate(item.expiration)}</div>
             <div className="table-data" style={{ width: "8%", backgroundColor: "#EFF6FF"   }}>{item.withdrawal.proposal.canonicalNum}</div>
@@ -79,7 +89,6 @@ const App = () => {
     <div>
       <h1 className="title">
         Market
-        <img src={Alarmclock_fill} alt="time"></img>
       </h1>
       <div className="table-container">
         <div className="table-header">
@@ -87,6 +96,7 @@ const App = () => {
           <div style={{ width: "15%" }}>Reward</div>
           <div style={{ width: "12%" }}>Paid</div>
           <div style={{ width: "12%" }}>
+            <img src={Alarmclock_fill}></img>
             Expires
           </div>
           <div style={{ width: "8%" }}>L2 Block</div>
