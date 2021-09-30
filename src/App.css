@@ -1,26 +1,54 @@
-.content-table {
-  border-collapse: collapse;
-  border: 1px solid black;
-  margin: 25px 0;
-  font-size: 0.9 em;
-  min-width: 400 px;
-  border-radius: 5px 5px 0 0;
-  overflow: hidden;
-}
+.table-container {
+  display: flex;
+  flex-direction: column;
 
-.content-table thead tr {
-  color: gray;
-  text-align: left;
-  font-weight: bold;
-}
+  font-family: Inter;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 140%;
 
-.content-table th,
-.content-table td {
-  padding: 12px 15px;
-  border: 1px solid black;
-}
-
-.content-table tbody tr {
-  border-bottom: 1px solid lightgrey;
+  border: 1px solid #CCD2E3;
+  border-radius: 8px;
+  border-spacing: 30px 15px;
 
 }
+
+.table-header {
+  display: flex;
+  justify-content: left;
+  color: #9CA3AF;
+  flex: 1;
+  padding-top: 5px;
+  padding-left: 8px;
+
+}
+
+.table-row {
+  display: flex;
+  margin-top: 10px;
+  padding: 8px;
+  height: 56px;
+}
+
+.table-data {
+  color: #111827;
+  word-break: break-all;
+  line-break: break-all;
+  padding-top: 15px;
+
+}
+
+.table-data-available {
+  color: #1D4ED8;
+  padding: 15px 5px;
+}
+
+.title {
+  font-family: Inter;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 140%;
+  color: #000000;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Inter');

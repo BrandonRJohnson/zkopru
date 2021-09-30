@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import './App.css';
 import axios from 'axios';
 import fromWei from './fromWei.js';
+import newDate from './dayjs.js';
+import Alarmclock_gray from './Alarmclock_gray.svg'
+import Reward from "./Reward";
 
 const App = () => {
   // we need to use the api key in order to figure out the data that is actually being imported from the API
   const [ info, setInfo ] = useState([])
 
-  useEffect(async () => {
+  useEffect(async() => {
     try {
       const { data } = await axios('https://zkopru.goerli.rollupscan.io/instant-withdraw')
       setInfo(data)
@@ -17,73 +20,72 @@ const App = () => {
     }
   }, [])
 
-  console.log()
-  // Status: convert status from number in data to display words in browser (4 is available, 5 Not Available, 6 Fulfilled )
+  console.log(info)
+
+  const asset  = ( address, tokenInfo ) => {
+    if ( +address === 0) {
+        return "ETH"
+    }
+
+    else {
+        return tokenInfo.symbol
+    }
+  }
+
+  const determineStatus = ( item ) => {
+    if ( item.withdrawal.status === 3 ) {
+      return "Fulfilled"
+    }
+    else if (item.withdrawal.proposal.finalized) {
+      return "Finalized"
+    }
+    else if ( +new Date() > +item.expiration * 1000) {
+      return "Expired"
+    }
+    return "Available"
+  }
+
   const Data = info.map((item) => {
-    return (
-      <tbody>
-        <tr>
-          <td>
-            {(() => {
-              if (item.withdrawal.status === 4 ) {
-                return 'Available'
-              }
-              else if ( item.withdrawal.status === 5 ) {
-                return 'Fulfulled'
-              }
-              else if ( item.withdrawal.statsus === 6 ) {
-                return 'Not Available'
-              }
-            })()}
-          </td>
-          <td>{fromWei((item.withdrawal.erc20Amount - item.prepayFeeInToken))} ETH</td>
-          <td>TBD</td>
-          <td>{Date(item.expiration * 1000)}</td>
-          <td>{item.withdrawal.proposal.canonicalNum}</td>
-          <td>{item.withdrawal.proposal.proposedAt}</td>
-          <td>{Date(item.withdrawal.proposal.timestamp * 1000)}</td>
-          <td>ETH</td>
-          <td>{fromWei(item.prepayFeeInEth)} ETH</td>
-        </tr>
-      </tbody>
-    )
+    const currentStatus = determineStatus(item)
+    const isAvailable = currentStatus === "Available"
+    const isExpired = +new Date() > +item.expiration * 1000
+      return (
+        <div className='table-row' style = {{backgroundColor: isAvailable ? "#EFF6FF" : "white", color: isExpired ? "#9ca3af" : "black" }} >
+            <div className="table-data-available" style={{ width: "10%" }}> {currentStatus} </div>
+            <div className="table-data" style={{ width: "15%"}}> {Reward(item)}</div>
+            <div className="table-data" style={{ width: "12%"}}>TBD</div>
+            <div className="table-data" style={{ width: "12%"}}>{newDate(item.expiration)}</div>
+            <div className="table-data" style={{ width: "8%"}}>{item.withdrawal.proposal.canonicalNum}</div>
+            <div className="table-data" style={{ width: "10%"}}>{item.withdrawal.proposal.proposedAt}</div>
+            <div className="table-data" style={{ width: "12%"}}>{newDate(item.withdrawal.proposal.timestamp)}</div>
+            <div className="table-data" style={{ width: "8%"}}>{Asset(item.withdrawal.tokenAddr, item.withdrawal.tokenInfo)}</div>
+            <div className="table-data" style={{ width: "15%"}}>{fromWei(item.prepayFeeInEth)} {Asset(item.withdrawal.tokenAddr, item.withdrawal.tokenInfo)} </div>
+        </div>
+      )
   })
 
-
-  // Reward: Should be calculated based on withdrawal.eth - prepayFeeInEther
-  // should use the BN math library in order to do these calculations
-  // Paid:
-
-  // Expiration: unix time (seconds) convert to milliseconds to use in javascript (e.g. new Date(expiration * 1000)
-
-  // Creation
-
-  // Asset
-
-  // Amount
   return (
     <div>
-      <h1>
+      <h1 className="title">
         Market
       </h1>
-      <h2>
-      </h2>
-      <table className="content-table">
-        <thead>
-          <tr>
-            <th className="status">Status</th>
-            <th>Reward</th>
-            <th>Paid</th>
-            <th>Expires</th>
-            <th>L2 Block</th>
-            <th>L1</th>
-            <th>Creation</th>
-            <th>Asset</th>
-            <th>Amount</th>
-          </tr>
-        </thead>
+      <div className="table-container">
+        <div className="table-header">
+          <div style={{ width: "10%" }}>Status</div>
+          <div style={{ width: "15%" }}>Reward</div>
+          <div style={{ width: "12%" }}>Paid</div>
+          <div style={{ width: "12%", display: 'flex', alignItems: 'center'}}>
+            <img src={Alarmclock_gray} width= "20"></img>
+            <div>Expires</div>
+          </div>
+          <div style={{ width: "8%" }}>L2 Block</div>
+          <div style={{ width: "10%" }}>L1</div>
+          <div style={{ width: "12%" }}>Creation</div>
+          <div style={{ width: "8%" }}>Asset</div>
+          <div style={{ width: "15%" }}>Amount</div>
+        </div>
         {Data}
-      </table>
+      </div>
     </div>
   )
 
