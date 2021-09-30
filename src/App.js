@@ -4,6 +4,7 @@ import axios from 'axios';
 import fromWei from './fromWei.js';
 import newDate from './dayjs.js';
 import Alarmclock_fill from './Alarmclock_fill.svg'
+import Asset from "./Asset";
 
 
 
@@ -21,21 +22,22 @@ const App = () => {
     }
   }, [])
 
-  console.log()
+  console.log(info)
+
 
   const Data = info.map((item) => {
     if ( item.withdrawal.status === 4 ) {
       return (
         <div className='table-row'>
             <div className="table-data-available" style={{ width: "10%", backgroundColor: "#EFF6FF" }}> Available </div>
-            <div className="table-data" style={{ width: "15%", backgroundColor: "#EFF6FF"  }}>{fromWei((item.withdrawal.erc20Amount - item.prepayFeeInToken))} ETH</div>
+            <div className="table-data" style={{ width: "15%", backgroundColor: "#EFF6FF"  }}> ETH</div>
             <div className="table-data" style={{ width: "12%", backgroundColor: "#EFF6FF"   }}>TBD</div>
             <div className="table-data" style={{ width: "12%", backgroundColor: "#EFF6FF"   }}>{newDate(item.expiration)}</div>
             <div className="table-data" style={{ width: "8%", backgroundColor: "#EFF6FF"   }}>{item.withdrawal.proposal.canonicalNum}</div>
             <div className="table-data" style={{ width: "10%", backgroundColor: "#EFF6FF"   }}>{item.withdrawal.proposal.proposedAt}</div>
             <div className="table-data" style={{ width: "12%", backgroundColor: "#EFF6FF"   }}>{newDate(item.withdrawal.proposal.timestamp)}</div>
-            <div className="table-data" style={{ width: "8%", backgroundColor: "#EFF6FF"   }}>ETH</div>
-            <div className="table-data" style={{ width: "15%", backgroundColor: "#EFF6FF"   }}>{fromWei(item.prepayFeeInEth)} ETH</div>
+            <div className="table-data" style={{ width: "8%", backgroundColor: "#EFF6FF"   }}>{Asset(item.withdrawal.tokenAddr, item.withdrawal.tokenInfo)}</div>
+            <div className="table-data" style={{ width: "15%", backgroundColor: "#EFF6FF"   }}>{fromWei(item.prepayFeeInEth)} {Asset(item.withdrawal.tokenAddr, item.withdrawal.tokenInfo)} </div>
         </div>
       )
     }
@@ -50,7 +52,7 @@ const App = () => {
             <div className="table-data" style={{ width: "8%" }}>{item.withdrawal.proposal.canonicalNum}</div>
             <div className="table-data" style={{ width: "10%" }}>{item.withdrawal.proposal.proposedAt}</div>
             <div className="table-data" style={{ width: "12%" }}>{Date((item.withdrawal.proposal.timestamp * 1000))}</div>
-            <div className="table-data" style={{ width: "8%" }}>ETH</div>
+            <div className="table-data" style={{ width: "8%" }}>{Asset(item.withdrawal.tokenAddr)}</div>
             <div className="table-data" style={{ width: "15%" }}>{fromWei(item.prepayFeeInEth)} ETH</div>
         </div>
       )
@@ -66,7 +68,7 @@ const App = () => {
             <div className="table-data" style={{ width: "8%" }}>{item.withdrawal.proposal.canonicalNum}</div>
             <div className="table-data" style={{ width: "10%" }}>{item.withdrawal.proposal.proposedAt}</div>
             <div className="table-data" style={{ width: "12%" }}>{Date((item.withdrawal.proposal.timestamp * 1000))}</div>
-            <div className="table-data" style={{ width: "8%" }}>ETH</div>
+            <div className="table-data" style={{ width: "8%" }}>{Asset(item.withdrawal.tokenAddr)}</div>
             <div className="table-data" style={{ width: "10%" }}>{fromWei(item.prepayFeeInEth)} ETH</div>
         </div>
       )

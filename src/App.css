@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
 
-  font-family: Inter;
+  font-family: Sans-Serif;
   font-style: normal;
   font-weight: normal;
   font-size: 16px;
@@ -36,6 +36,7 @@
   word-break: break-all;
   line-break: break-all;
   padding-top: 15px;
+
 }
 
 .table-data-available {
@@ -44,7 +45,7 @@
 }
 
 .title {
-  font-family: Inter;
+  font-family: Sans-Serif;
   font-style: normal;
   font-weight: 600;
   font-size: 24px;
