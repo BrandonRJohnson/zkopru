@@ -3,10 +3,8 @@ import './App.css';
 import axios from 'axios';
 import fromWei from './fromWei.js';
 import newDate from './dayjs.js';
-import Alarmclock_fill from './Alarmclock_fill.svg'
+import Alarmclock_gray from './Alarmclock_gray.svg'
 import Reward from "./Reward";
-
-
 
 const App = () => {
   // we need to use the api key in order to figure out the data that is actually being imported from the API
@@ -24,7 +22,7 @@ const App = () => {
 
   console.log(info)
 
-  const Asset  = ( address, tokenInfo ) => {
+  const asset  = ( address, tokenInfo ) => {
     if ( +address === 0) {
         return "ETH"
     }
@@ -32,57 +30,38 @@ const App = () => {
     else {
         return tokenInfo.symbol
     }
-}
+  }
 
+  const determineStatus = ( item ) => {
+    if ( item.withdrawal.status === 3 ) {
+      return "Fulfilled"
+    }
+    else if (item.withdrawal.proposal.finalized) {
+      return "Finalized"
+    }
+    else if ( +new Date() > +item.expiration * 1000) {
+      return "Expired"
+    }
+    return "Available"
+  }
 
   const Data = info.map((item) => {
-    if ( item.withdrawal.status === 4 ) {
+    const currentStatus = determineStatus(item)
+    const isAvailable = currentStatus === "Available"
+    const isExpired = +new Date() > +item.expiration * 1000
       return (
-        <div className='table-row'>
-            <div className="table-data-available" style={{ width: "10%", backgroundColor: "#EFF6FF" }}> Available </div>
-            <div className="table-data" style={{ width: "15%", backgroundColor: "#EFF6FF"  }}> {Reward(item)}</div>
-            <div className="table-data" style={{ width: "12%", backgroundColor: "#EFF6FF"   }}>TBD</div>
-            <div className="table-data" style={{ width: "12%", backgroundColor: "#EFF6FF"   }}>{newDate(item.expiration)}</div>
-            <div className="table-data" style={{ width: "8%", backgroundColor: "#EFF6FF"   }}>{item.withdrawal.proposal.canonicalNum}</div>
-            <div className="table-data" style={{ width: "10%", backgroundColor: "#EFF6FF"   }}>{item.withdrawal.proposal.proposedAt}</div>
-            <div className="table-data" style={{ width: "12%", backgroundColor: "#EFF6FF"   }}>{newDate(item.withdrawal.proposal.timestamp)}</div>
-            <div className="table-data" style={{ width: "8%", backgroundColor: "#EFF6FF"   }}>{Asset(item.withdrawal.tokenAddr, item.withdrawal.tokenInfo)}</div>
-            <div className="table-data" style={{ width: "15%", backgroundColor: "#EFF6FF"   }}>{fromWei(item.prepayFeeInEth)} {Asset(item.withdrawal.tokenAddr, item.withdrawal.tokenInfo)} </div>
+        <div className='table-row' style = {{backgroundColor: isAvailable ? "#EFF6FF" : "white", color: isExpired ? "#9ca3af" : "black" }} >
+            <div className="table-data-available" style={{ width: "10%" }}> {currentStatus} </div>
+            <div className="table-data" style={{ width: "15%"}}> {Reward(item)}</div>
+            <div className="table-data" style={{ width: "12%"}}>TBD</div>
+            <div className="table-data" style={{ width: "12%"}}>{newDate(item.expiration)}</div>
+            <div className="table-data" style={{ width: "8%"}}>{item.withdrawal.proposal.canonicalNum}</div>
+            <div className="table-data" style={{ width: "10%"}}>{item.withdrawal.proposal.proposedAt}</div>
+            <div className="table-data" style={{ width: "12%"}}>{newDate(item.withdrawal.proposal.timestamp)}</div>
+            <div className="table-data" style={{ width: "8%"}}>{Asset(item.withdrawal.tokenAddr, item.withdrawal.tokenInfo)}</div>
+            <div className="table-data" style={{ width: "15%"}}>{fromWei(item.prepayFeeInEth)} {Asset(item.withdrawal.tokenAddr, item.withdrawal.tokenInfo)} </div>
         </div>
       )
-    }
-
-    else if ( item.withdrawal.status === 5 ) {
-      return (
-        <div className='table-row'>
-            <div className="table-data" style={{ width: "10%" }}> Fulfilled </div>
-            <div className="table-data" style={{ width: "15%" }}>{fromWei((item.withdrawal.erc20Amount - item.prepayFeeInToken))} ETH</div>
-            <div className="table-data" style={{ width: "12%" }}>TBD</div>
-            <div className="table-data" style={{ width: "12%" }}>{Date((item.expiration * 1000))}</div>
-            <div className="table-data" style={{ width: "8%" }}>{item.withdrawal.proposal.canonicalNum}</div>
-            <div className="table-data" style={{ width: "10%" }}>{item.withdrawal.proposal.proposedAt}</div>
-            <div className="table-data" style={{ width: "12%" }}>{Date((item.withdrawal.proposal.timestamp * 1000))}</div>
-            <div className="table-data" style={{ width: "8%" }}>{Asset(item.withdrawal.tokenAddr)}</div>
-            <div className="table-data" style={{ width: "15%" }}>{fromWei(item.prepayFeeInEth)} ETH</div>
-        </div>
-      )
-    }
-
-    else if ( item.withdrawal.status === 6 ) {
-      return (
-        <div className='table-row'>
-            <div className="table-data" style={{ width: "10%" }}> Expired </div>
-            <div className="table-data" style={{ width: "15%" }}>{fromWei((item.withdrawal.erc20Amount - item.prepayFeeInToken))} ETH</div>
-            <div className="table-data" style={{ width: "12%" }}>TBD</div>
-            <div className="table-data" style={{ width: "12%" }}>{Date((item.expiration * 1000))}</div>
-            <div className="table-data" style={{ width: "8%" }}>{item.withdrawal.proposal.canonicalNum}</div>
-            <div className="table-data" style={{ width: "10%" }}>{item.withdrawal.proposal.proposedAt}</div>
-            <div className="table-data" style={{ width: "12%" }}>{Date((item.withdrawal.proposal.timestamp * 1000))}</div>
-            <div className="table-data" style={{ width: "8%" }}>{Asset(item.withdrawal.tokenAddr)}</div>
-            <div className="table-data" style={{ width: "10%" }}>{fromWei(item.prepayFeeInEth)} ETH</div>
-        </div>
-      )
-    }
   })
 
   return (
@@ -95,9 +74,9 @@ const App = () => {
           <div style={{ width: "10%" }}>Status</div>
           <div style={{ width: "15%" }}>Reward</div>
           <div style={{ width: "12%" }}>Paid</div>
-          <div style={{ width: "12%" }}>
-            <img src={Alarmclock_fill}></img>
-            Expires
+          <div style={{ width: "12%", display: 'flex', alignItems: 'center'}}>
+            <img src={Alarmclock_gray} width= "20"></img>
+            <div>Expires</div>
           </div>
           <div style={{ width: "8%" }}>L2 Block</div>
           <div style={{ width: "10%" }}>L1</div>
