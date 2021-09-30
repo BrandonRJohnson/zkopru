@@ -18,6 +18,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "serve": "serve -s build",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -39,6 +40,7 @@
     ]
   },
   "devDependencies": {
+    "serve": "^12.0.0",
     "file-loader": "^6.2.0"
   }
 }
