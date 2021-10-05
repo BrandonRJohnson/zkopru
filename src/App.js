@@ -4,6 +4,8 @@ import axios from 'axios';
 import fromWei from './fromWei.js';
 import newDate from './dayjs.js';
 import Alarmclock_gray from './Alarmclock_gray.svg'
+import Alarmclock_orange from './Alarmclock_orange.svg'
+import Alarmclock_yellow from './Alarmclock_yellow.svg'
 import Reward from "./Reward";
 
 const App = () => {
@@ -49,12 +51,16 @@ const App = () => {
     const currentStatus = getStatus(item)
     const isAvailable = currentStatus === "Available"
     const isExpired = +new Date() > +item.expiration * 1000
+    const isWarning = +new Date() > +(item.expiration * 1000) - 3600
       return (
         <div className='table-row' style = {{backgroundColor: isAvailable ? "#EFF6FF" : "white", color: isExpired ? "#9ca3af" : "black" }} >
             <div className="table-data-available" style={{ width: "10%" }}> {currentStatus} </div>
             <div className="table-data" style={{ width: "15%"}}> {Reward(item)}</div>
             <div className="table-data" style={{ width: "12%"}}>TBD</div>
-            <div className="table-data" style={{ width: "12%"}}>{newDate(item.expiration)}</div>
+            <div className="table-data" style={{ width: "14%", display: 'flex', alignItems: 'center'}}>
+              <img src={isExpired ? Alarmclock_gray : isWarning ? Alarmclock_yellow : Alarmclock_orange } alt="" width= "20"></img>
+              {newDate(item.expiration)}
+            </div>
             <div className="table-data" style={{ width: "8%"}}>{item.withdrawal.proposal.canonicalNum}</div>
             <div className="table-data" style={{ width: "10%"}}>{item.withdrawal.proposal.proposedAt}</div>
             <div className="table-data" style={{ width: "12%"}}>{newDate(item.withdrawal.proposal.timestamp)}</div>
@@ -74,7 +80,7 @@ const App = () => {
           <div style={{ width: "10%" }}>Status</div>
           <div style={{ width: "15%" }}>Reward</div>
           <div style={{ width: "12%" }}>Paid</div>
-          <div style={{ width: "12%", display: 'flex', alignItems: 'center'}}>
+          <div style={{ width: "14%", display: 'flex', alignItems: 'center'}}>
             <img src={Alarmclock_gray} width= "20"></img>
             <div>Expires</div>
           </div>
