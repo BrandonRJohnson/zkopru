@@ -30,6 +30,15 @@
   height: 56px;
 }
 
+.table-row-available {
+  display: flex;
+  margin-top: 10px;
+  padding: 8px;
+  height: 56px;
+  background-color: #a4cbf3;
+
+}
+
 .table-row-expired {
   display: flex;
   margin-top: 10px;
