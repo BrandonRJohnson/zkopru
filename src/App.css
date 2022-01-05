@@ -36,7 +36,7 @@
   padding: 8px;
   height: 56px;
   background-color: #a4cbf3;
-
+  align-items: center;
 }
 
 .table-row-expired {
@@ -45,24 +45,21 @@
   padding: 8px;
   height: 56px;
   background-color: #F9FAFB;
-
+  align-items: center;
 }
 
 .table-data {
   color: #111827;
   word-break: break-all;
   line-break: break-all;
-  padding-top: 15px;
-
 }
 
 .table-data-expired {
   color:#9ca3af;
   word-break: break-all;
   line-break: break-all;
-  padding-top: 15px;
-
 }
+
 .table-data-available {
   color: #1D4ED8;
   padding: 15px 5px;
