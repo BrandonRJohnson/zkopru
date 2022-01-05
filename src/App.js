@@ -5,15 +5,15 @@ import dayjs from "dayjs";
 import Alarmclock_gray from './Alarmclock_gray.svg'
 import Alarmclock_orange from './Alarmclock_orange.svg'
 import BN from "bn.js";
-import { L1Contract } from '@zkopru/core';
+// import { L1Contract } from '@zkopru/client/browser';
 
-window.addEventListener("load", () => {
+window.addEventListener('load', () => {
   if (window.ethereum) {
       window.ethereum.request({ method: 'eth_requestAccounts' })
-      console.log("Connected to metamask")
+      console.log('Connected to metamask')
   }
   else if (window.web3) {
-    console.log("Injected web3 detected")
+    console.log('Injected web3 detected')
   }
   else {
     console.log('Error, no web3 found in browser')
@@ -28,13 +28,11 @@ const App = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const { data } = await axios('https://zkopru.goerli.rollupscan.io/instant-withdraw')
+      const { data } = await axios('https://node.zkopru.network/instant-withdraw')
       setInfo(data)
     }
     fetchData()
   }, [])
-
-  console.log(info)
 
   const fromWei = (amount, decimals = 12) => {
     // transfer units from wei to ether
@@ -62,15 +60,7 @@ const App = () => {
     }
   }
 
-  const ZKOPRU_ADDRESS = '0xe93b68a8ea810242BEBc5fb225EB01ddF2bf070A'
-
-  const contract = new L1Contract(window.web3, ZKOPRU_ADDRESS)
-
-  const latestBlock = async () => {
-    await contract.upstream.methods.latest()
-  }
-
-  console.log(latestBlock)
+  // const ZKOPRU_ADDRESS = '0xe93b68a8ea810242BEBc5fb225EB01ddF2bf070A'
 
   const getStatus = ( item ) => {
     // determine that status of a transaction based on data in the API
@@ -94,7 +84,7 @@ const App = () => {
     return getStatus(item) === "Available"
   });
 
-  const Reward = ( item ) => {
+  const calcReward = ( item ) => {
     if ( +item.withdrawal.tokenAddr === 0) {
         return `${fromWei(item.prepayFeeInEth)} ETH`
     }
@@ -108,8 +98,8 @@ const App = () => {
 
   const availableWithdrawals = filterAvailable.map((item) => {
     return (
-      <div className='table-row-available'>
-        <div className="table-data" style={{ width: "15%"}}> {Reward(item)}</div>
+      <div className='table-row-available' key={item.withdrawal.hash}>
+        <div className="table-data" style={{ width: "15%"}}> {calcReward(item)}</div>
         <div className="table-data" style={{ width: "14%", display: 'flex', alignItems: 'center'}}>
         <img src={Alarmclock_orange} alt="" width= "20"></img>
         {newDate(item.expiration)}
@@ -119,7 +109,7 @@ const App = () => {
         <div className="table-data" style={{ width: "8%"}}>{getAssetSymbol(item.withdrawal.tokenAddr, item.withdrawal.tokenInfo)}</div>
         <div className="table-data" style={{ width: "16%"}}>{`Created ${newDate(item.withdrawal.proposal.timestamp)}`}</div>
         <div className="table-data" style={{ width: "6%"}}>L2 Block</div>
-        <div className="table-data" style={{ width: "10%"}}><a href={`https://goerli.etherscan.io/tx/${item.withdrawal.proposal.proposedAt}`}> L1 Transaction </a></div>
+        <div className="table-data" style={{ width: "10%"}}><a target='_blank' rel='noreferrer' href={`https://goerli.etherscan.io/tx/${item.withdrawal.proposal.proposalTx}`}> L1 Transaction </a></div>
       </div>
     )
   })
@@ -128,9 +118,9 @@ const App = () => {
 
   const expiredWithdrawals = filterExpired.map((item) => {
     return (
-      <div className='table-row-expired'>
-        <div className="table-data-expired" style={{ width: "15%"}}> {Reward(item)}</div>
-        <div className="table-data-expired" style={{ width: "14%", display: 'flex', alignItems: 'center'}}>
+      <div className='table-row-expired' key={item.withdrawal.hash}>
+        <div className="table-data-expired" style={{ width: "15%"}}> {calcReward(item)}</div>
+        <div className="table-data-expired" style={{ width: "15%", display: 'flex', alignItems: 'center'}}>
           <img src={Alarmclock_gray} alt="" width= "20"></img>
           {newDate(item.expiration)}
         </div>
@@ -138,7 +128,7 @@ const App = () => {
         <div className="table-data-expired" style={{ width: "8%"}}>{getAssetSymbol(item.withdrawal.tokenAddr, item.withdrawal.tokenInfo)}</div>
         <div className="table-data-expired" style={{ width: "16%"}}>{`Created ${newDate(item.withdrawal.proposal.timestamp)}`}</div>
         <div className="table-data-expired" style={{ width: "6%"}}>L2 Block</div>
-        <div className="table-data-expired" style={{ width: "10%"}}><a href={`https://goerli.etherscan.io/tx/${item.withdrawal.proposal.proposedAt}`}> L1 Transaction </a></div>
+        <div className="table-data-expired" style={{ width: "10%"}}><a target='_blank' rel='noreferrer' href={`https://goerli.etherscan.io/tx/${item.withdrawal.proposal.proposalTx}`}> L1 Transaction </a></div>
       </div>
     )
   })
